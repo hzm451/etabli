@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Établi – outils gratuits du quotidien</title>
+<meta name="description" content="Calculateur de soldes, générateur de mots de passe, test de réflexes et astuce du jour. Gratuit, sans inscription.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap" rel="stylesheet">
+<!-- ÉTAPE 5 : collez ici le script AdSense fourni par Google, une fois votre compte validé -->
+<style>
+:root{--bg:#e8edf1;--ink:#14213d;--muted:#52607a;--accent:#ffc93c;--teal:#1f7a7a;--card:#fff;--line:#c9d3dd}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Bricolage Grotesque",system-ui,sans-serif;line-height:1.55}
+a{color:var(--teal)}
+header{background:var(--ink);color:#fff;padding:28px 20px 0}
+.wrap{max-width:1080px;margin:0 auto}
+h1{margin:0;font-size:clamp(2.4rem,6vw,4rem);font-weight:800;letter-spacing:-.03em;line-height:1}
+h1 span{display:inline-block;background:var(--accent);color:var(--ink);padding:0 .15em;transform:rotate(-2deg)}
+header p{margin:10px 0 22px;color:#b9c4d8;max-width:46ch}
+nav{display:flex;gap:4px;flex-wrap:wrap}
+nav button{font:inherit;font-weight:600;border:0;background:#223357;color:#dbe3f1;padding:12px 18px;border-radius:10px 10px 0 0;cursor:pointer}
+nav button[aria-selected=true]{background:var(--bg);color:var(--ink)}
+nav button:focus-visible,.btn:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.layout{display:grid;grid-template-columns:1fr 300px;gap:24px;padding:24px 20px}
+.panel{background:var(--card);border-radius:14px;padding:28px;border:1px solid var(--line)}
+.panel[hidden]{display:none}
+h2{margin:0 0 6px;font-size:1.6rem;letter-spacing:-.02em}
+.sub{margin:0 0 22px;color:var(--muted)}
+label{display:block;font-weight:600;margin:14px 0 6px}
+input[type=number]{font:inherit;width:100%;max-width:260px;padding:10px 12px;border:2px solid var(--line);border-radius:8px}
+.btn{font:inherit;font-weight:700;background:var(--accent);color:var(--ink);border:0;padding:12px 22px;border-radius:8px;cursor:pointer;margin-top:16px}
+.btn.alt{background:var(--ink);color:#fff}
+.out{margin-top:22px;padding:18px;border-left:6px solid var(--accent);background:#f4f7fa;font-size:1.1rem}
+.big{font-size:2.6rem;font-weight:800;letter-spacing:-.03em;line-height:1.1}
+.pw{font:600 1.25rem ui-monospace,Menlo,monospace;word-break:break-all;background:var(--ink);color:#fff;padding:16px;border-radius:8px;min-height:3.4em}
+.opts label{display:inline-flex;gap:8px;align-items:center;margin:10px 18px 0 0;font-weight:400}
+#pad{width:100%;height:220px;border:0;border-radius:12px;font:inherit;font-size:1.5rem;font-weight:800;cursor:pointer;background:var(--ink);color:#fff}
+#pad.wait{background:#b33a3a}
+#pad.go{background:#2a9d5c}
+.ad{background:repeating-linear-gradient(45deg,#f1f4f7,#f1f4f7 10px,#e6ebf0 10px,#e6ebf0 20px);border:1px dashed #9aa8ba;color:#7a879b;font-size:.8rem;display:flex;align-items:center;justify-content:center;text-align:center;border-radius:8px}
+.ad-top{min-height:90px;margin:20px auto 0;max-width:728px}
+.ad-side{min-height:600px;position:sticky;top:16px}
+.ad-mid{min-height:250px;margin-top:24px}
+aside{min-width:0}
+footer{padding:10px 20px 40px;color:var(--muted);font-size:.9rem}
+footer a{margin-right:14px}
+@media(max-width:860px){.layout{grid-template-columns:1fr}.ad-side{min-height:250px;position:static}}
+@media(prefers-reduced-motion:no-preference){#pad{transition:background .15s}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>Éta<span>bli</span></h1>
+    <p>Quatre petits outils gratuits, sans inscription, qui servent vraiment.</p>
+    <nav role="tablist" aria-label="Outils">
+      <button role="tab" aria-selected="true" data-t="soldes">Soldes</button>
+      <button role="tab" aria-selected="false" data-t="mdp">Mot de passe</button>
+      <button role="tab" aria-selected="false" data-t="jeu">Réflexes</button>
+      <button role="tab" aria-selected="false" data-t="astuce">Astuce du jour</button>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+  <!-- PUB 1 : bannière haut de page (728x90) -->
+  <div class="ad ad-top" id="ad-top">Emplacement pub – bannière</div>
+
+  <div class="layout">
+    <main>
+      <section class="panel" id="soldes" role="tabpanel">
+        <h2>Calculateur de soldes</h2>
+        <p class="sub">Entrez le prix d’origine et la remise : vous voyez le prix final et l’économie.</p>
+        <label for="p">Prix d’origine (€)</label>
+        <input type="number" id="p" min="0" step="0.01" value="80" inputmode="decimal">
+        <label for="r1">Remise (%)</label>
+        <input type="number" id="r1" min="0" max="100" value="30" inputmode="decimal">
+        <label for="r2">Remise supplémentaire (%) – optionnelle</label>
+        <input type="number" id="r2" min="0" max="100" value="0" inputmode="decimal">
+        <div class="out" aria-live="polite"><div class="big" id="sFinal"></div><div id="sSave"></div></div>
+      </section>
+
+      <section class="panel" id="mdp" role="tabpanel" hidden>
+        <h2>Générateur de mots de passe</h2>
+        <p class="sub">Créé dans votre navigateur : rien n’est envoyé ni enregistré.</p>
+        <div class="pw" id="pwOut" aria-live="polite"></div>
+        <label for="len">Longueur : <span id="lenV">16</span></label>
+        <input type="range" id="len" min="8" max="40" value="16" style="width:100%;max-width:320px">
+        <div class="opts">
+          <label><input type="checkbox" id="oU" checked> Majuscules</label>
+          <label><input type="checkbox" id="oN" checked> Chiffres</label>
+          <label><input type="checkbox" id="oS" checked> Symboles</label>
+        </div>
+        <button class="btn" id="gen">Générer</button>
+        <button class="btn alt" id="copy">Copier</button>
+        <span id="cpMsg" aria-live="polite"></span>
+      </section>
+
+      <section class="panel" id="jeu" role="tabpanel" hidden>
+        <h2>Test de réflexes</h2>
+        <p class="sub">Attendez que la zone devienne verte, puis cliquez le plus vite possible.</p>
+        <button id="pad">Cliquez pour commencer</button>
+        <div class="out"><span id="last">Dernier : –</span> &nbsp;|&nbsp; <span id="best">Meilleur : –</span></div>
+      </section>
+
+      <section class="panel" id="astuce" role="tabpanel" hidden>
+        <h2>Astuce du jour</h2>
+        <p class="sub">Une idée simple à appliquer dès aujourd’hui.</p>
+        <div class="out" id="tip" style="font-size:1.35rem"></div>
+        <button class="btn" id="nextTip">Une autre astuce</button>
+      </section>
+
+      <!-- PUB 2 : dans le contenu (rectangle 300x250 ou responsive) -->
+      <div class="ad ad-mid" id="ad-mid">Emplacement pub – rectangle</div>
+    </main>
+
+    <aside>
+      <!-- PUB 3 : colonne latérale (300x600) -->
+      <div class="ad ad-side" id="ad-side">Emplacement pub – colonne</div>
+    </aside>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <a href="legal.html#mentions">Mentions légales</a><a href="legal.html#confidentialite">Politique de confidentialité</a><a href="legal.html#cookies">Cookies</a>
+    <p>© Établi</p>
+  </div>
+</footer>
+
+<script>
+const $=id=>document.getElementById(id);
+const eur=n=>n.toLocaleString("fr-FR",{style:"currency",currency:"EUR"});
+
+/* Onglets */
+document.querySelectorAll("nav button").forEach(b=>b.addEventListener("click",()=>{
+  document.querySelectorAll("nav button").forEach(x=>x.setAttribute("aria-selected",x===b));
+  document.querySelectorAll(".panel").forEach(p=>p.hidden=p.id!==b.dataset.t);
+}));
+
+/* Soldes */
+function calcSoldes(){
+  const p=parseFloat($("p").value)||0,a=parseFloat($("r1").value)||0,b=parseFloat($("r2").value)||0;
+  const f=p*(1-a/100)*(1-b/100);
+  $("sFinal").textContent=eur(f);
+  const pct=p>0?Math.round((1-f/p)*100):0;
+  $("sSave").textContent="Vous économisez "+eur(p-f)+" ("+pct+" % au total).";
+}
+["p","r1","r2"].forEach(i=>$(i).addEventListener("input",calcSoldes));
+calcSoldes();
+
+/* Mot de passe */
+function genPw(){
+  let set="abcdefghijkmnopqrstuvwxyz";
+  if($("oU").checked)set+="ABCDEFGHJKLMNPQRSTUVWXYZ";
+  if($("oN").checked)set+="23456789";
+  if($("oS").checked)set+="!@#$%&*?-_+=";
+  const n=+$("len").value,buf=new Uint32Array(n);
+  crypto.getRandomValues(buf);
+  $("pwOut").textContent=Array.from(buf,v=>set[v%set.length]).join("");
+  $("cpMsg").textContent="";
+}
+$("len").addEventListener("input",()=>{$("lenV").textContent=$("len").value;genPw()});
+$("gen").addEventListener("click",genPw);
+["oU","oN","oS"].forEach(i=>$(i).addEventListener("change",genPw));
+$("copy").addEventListener("click",()=>{
+  navigator.clipboard.writeText($("pwOut").textContent).then(()=>$("cpMsg").textContent=" Copié.",()=>$("cpMsg").textContent=" Copie impossible, sélectionnez le texte.");
+});
+genPw();
+
+/* Réflexes */
+let state="idle",timer,t0,best=null;
+const pad=$("pad");
+pad.addEventListener("click",()=>{
+  if(state==="idle"){
+    state="wait";pad.className="wait";pad.textContent="Attendez le vert…";
+    timer=setTimeout(()=>{state="go";pad.className="go";pad.textContent="Cliquez !";t0=performance.now()},1500+Math.random()*2500);
+  }else if(state==="wait"){
+    clearTimeout(timer);state="idle";pad.className="";pad.textContent="Trop tôt. Cliquez pour recommencer.";
+  }else{
+    const ms=Math.round(performance.now()-t0);
+    state="idle";pad.className="";pad.textContent=ms+" ms. Cliquez pour rejouer.";
+    $("last").textContent="Dernier : "+ms+" ms";
+    if(best===null||ms<best){best=ms;$("best").textContent="Meilleur : "+best+" ms"}
+  }
+});
+
+/* Astuces */
+const tips=[
+"Un bol d’eau et de citron chauffé 3 minutes au micro-ondes ramollit les saletés : il ne reste qu’à essuyer.",
+"Mettez la tige du persil ou de la coriandre dans un verre d’eau, comme un bouquet : les herbes tiennent bien plus longtemps.",
+"Enveloppez la tige des bananes dans du film alimentaire : elles noircissent moins vite.",
+"Activez la double authentification sur votre boîte mail en premier : elle ouvre la porte à tous vos autres comptes.",
+"Règle du 3-2-1 : trois copies de vos fichiers, sur deux supports différents, dont une hors de chez vous.",
+"Pour décoller une étiquette, chauffez-la au sèche-cheveux, puis frottez avec un peu d’huile.",
+"Toutes les 20 minutes, regardez quelque chose à 6 mètres pendant 20 secondes : vos yeux vous remercieront.",
+"Congelez le pain déjà tranché : chaque tranche passe directement au grille-pain.",
+"En France, une annonce de réduction doit se référer au prix le plus bas des 30 derniers jours. Gardez-le en tête pendant les soldes.",
+"Photographiez le câblage derrière votre télé avant de tout débrancher : le remontage prendra deux minutes.",
+"Nettoyez un écran avec un chiffon microfibre à peine humide, jamais avec un produit pulvérisé directement dessus.",
+"Écrivez la tâche la plus pénible de la journée en premier sur votre liste, puis faites-la avant tout le reste."
+];
+let ti=Math.floor(Date.now()/864e5)%tips.length;
+const showTip=()=>$("tip").textContent=tips[ti];
+$("nextTip").addEventListener("click",()=>{ti=(ti+1)%tips.length;showTip()});
+showTip();
+</script>
+</body>
+</html>
